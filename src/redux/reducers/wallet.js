@@ -1,10 +1,16 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import { REQUEST_API, GET_CURRENCIES, GET_CURRENCIES_FAIL } from '../actions';
+import { REQUEST_API,
+  GET_CURRENCIES,
+  GET_CURRENCIES_FAIL,
+  GET_CURRENCIESALL,
+  ADD_CUSTOMER } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
+  currenciesAll: '',
   error: '',
   loading: false,
+  expenses: [],
 };
 
 function wallet(state = INITIAL_STATE, action) {
@@ -25,6 +31,17 @@ function wallet(state = INITIAL_STATE, action) {
       ...state,
       loading: false,
       erro: 'algo está errado',
+    };
+  case GET_CURRENCIESALL:
+    return {
+      ...state,
+      currenciesAll: action.currenciesAll,
+      loading: false,
+    };
+  case ADD_CUSTOMER:
+    return {
+      ...state,
+      expenses: [...state.expenses, action.expenses],
     };
   default:
     return state;

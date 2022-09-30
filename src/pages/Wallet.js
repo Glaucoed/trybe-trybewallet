@@ -8,7 +8,7 @@ import { fetchAPI } from '../redux/actions';
 class Wallet extends React.Component {
   async componentDidMount() {
     const { dispatch } = this.props;
-    await dispatch(fetchAPI());
+    await dispatch(fetchAPI('key'));
   }
 
   render() {
