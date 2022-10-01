@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 class Header extends Component {
   render() {
     const { email, total } = this.props;
-    console.log(total);
     const converteMoeda = total
       .map(({ currency, value, exchangeRates }) => exchangeRates[currency].ask * value);
     const value = converteMoeda.reduce((y, x) => x + y, 0);

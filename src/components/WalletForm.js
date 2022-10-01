@@ -17,8 +17,6 @@ class WalletForm extends Component {
     currency: 'USD',
     method: 'Dinheiro',
     tag: 'Alimentação',
-    // exchangeRates: {},
-
   };
 
   handleChange = ({ target: { name, value } }) => {
@@ -110,7 +108,6 @@ class WalletForm extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  // currenciesAll: state.wallet.currenciesAll,
   currencies: state.wallet.currencies,
 });
 
