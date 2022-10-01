@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import WalletForm from '../components/WalletForm';
+import Table from '../components/Table';
 import { fetchAPI } from '../redux/actions';
 
 class Wallet extends React.Component {
   async componentDidMount() {
     const { dispatch } = this.props;
-    await dispatch(fetchAPI('key'));
+    await dispatch(fetchAPI());
   }
 
   render() {
@@ -17,6 +18,7 @@ class Wallet extends React.Component {
         <h1>TrybeWallet</h1>
         <Header />
         <WalletForm />
+        <Table />
       </div>
     );
   }

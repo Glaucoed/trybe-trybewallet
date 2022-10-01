@@ -2,7 +2,6 @@
 import { REQUEST_API,
   GET_CURRENCIES,
   GET_CURRENCIES_FAIL,
-  GET_CURRENCIESALL,
   ADD_CUSTOMER } from '../actions';
 
 const INITIAL_STATE = {
@@ -31,12 +30,6 @@ function wallet(state = INITIAL_STATE, action) {
       ...state,
       loading: false,
       erro: 'algo está errado',
-    };
-  case GET_CURRENCIESALL:
-    return {
-      ...state,
-      currenciesAll: action.currenciesAll,
-      loading: false,
     };
   case ADD_CUSTOMER:
     return {

@@ -9,6 +9,7 @@ class Header extends Component {
     const converteMoeda = total
       .map(({ currency, value, exchangeRates }) => exchangeRates[currency].ask * value);
     const value = converteMoeda.reduce((y, x) => x + y, 0);
+
     return (
       <div>
         <div>
@@ -28,7 +29,9 @@ class Header extends Component {
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
-  total: PropTypes.arrayOf(PropTypes.string).isRequired,
+  total: PropTypes.arrayOf(PropTypes.shape({
+    arrayOf: PropTypes.string,
+  })).isRequired,
 };
 
 const mapStateToProps = (state) => ({
