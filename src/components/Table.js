@@ -11,7 +11,7 @@ class Table extends Component {
 
   handleEdit = (expense) => {
     const { dispatch } = this.props;
-    dispatch(addExpenseEdit(expense));
+    dispatch(addExpenseEdit(expense.id));
   };
 
   render() {

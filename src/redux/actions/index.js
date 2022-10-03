@@ -18,7 +18,7 @@ export const addExpenses = (expenses) => async (dispatch) => {
 
 export const deleteExpenses = (expense) => ({ type: DELETE_EXPENSES, expense });
 
-export const addExpenseEdit = (expense) => ({ type: ADD_EXPENSE_EDIT, expense });
+export const addExpenseEdit = (id) => ({ type: ADD_EXPENSE_EDIT, id });
 
 export const editExpenses = (expense) => ({ type: EDIT_EXPENSES, expense });
 

@@ -13,7 +13,8 @@ const INITIAL_STATE = {
   currencies: [],
   currenciesAll: '',
   loading: false,
-  edit: false,
+  editor: false,
+  idToEdit: null,
   expenses: [],
 };
 
@@ -38,7 +39,6 @@ function wallet(state = INITIAL_STATE, action) {
   case ADD_EXPENSES:
     return {
       ...state,
-      edit: false,
       expenses: [...state.expenses, action.expenses],
     };
   case DELETE_EXPENSES:
@@ -49,13 +49,13 @@ function wallet(state = INITIAL_STATE, action) {
   case ADD_EXPENSE_EDIT:
     return {
       ...state,
-      edit: true,
-      expense: action.expense, // alterar para o ID igual o readme
+      editor: true,
+      idToEdit: action.id, // alterar para o ID igual o readme
     };
   case EDIT_EXPENSES:
     return {
       ...state,
-      edit: false,
+      editor: false,
       expenses: state.expenses.map((expen) => {
         if (expen.id === action.expense.id) {
           return action.expense;

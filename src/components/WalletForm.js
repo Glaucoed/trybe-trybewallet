@@ -17,15 +17,12 @@ class WalletForm extends Component {
     currency: 'USD',
     method: 'Dinheiro',
     tag: 'Alimentação',
-    exchangeRates: '',
   };
 
   componentDidUpdate(_prevProps, prevState) {
-    const { edit, expense } = this.props;
-    console.log(prevState, 'prev');
-    console.log(expense, 'expense');
-    if (expense && edit && prevState?.id !== expense?.id) {
-      this.xablau(expense);
+    const { editor, expenses, idToEdit } = this.props;
+    if (expenses && editor && prevState?.id !== expenses[idToEdit].id) {
+      this.rendersInputInfo(expenses[idToEdit]);
     }
   }
 
@@ -34,11 +31,17 @@ class WalletForm extends Component {
   };
 
   handleEdit = () => {
-    const { expense, dispatch } = this.props;
-    const { exchangeRates } = expense;
-    const atualState = this.state;
+    const { expenses, dispatch, idToEdit } = this.props;
+    const { value, description, method, tag, currency, id } = this.state;
+    const { exchangeRates } = expenses[idToEdit];
+    const atualState = { value, description, method, tag, currency, id };
     atualState.exchangeRates = exchangeRates;
     dispatch(editExpenses(atualState));
+    this.setState({
+      value: '',
+      description: '',
+      id: expenses[expenses.length - 1].id + 1,
+    });
   };
 
   handleClickButton = () => {
@@ -63,19 +66,19 @@ class WalletForm extends Component {
     });
   };
 
-  xablau = (obj) => {
-    console.log('xablau');
+  rendersInputInfo = (obj) => {
     this.setState({
       id: obj.id,
       value: obj.value,
       description: obj.description,
       currency: obj.currency,
       method: obj.method,
-      tag: obj.tag });
+      tag: obj.tag,
+    });
   };
 
   render() {
-    const { currencies, edit } = this.props;
+    const { currencies, editor } = this.props;
     const MOEDAS_LIST = currencies || [];
 
     const { value, description, method, tag, currency } = this.state;
@@ -126,7 +129,7 @@ class WalletForm extends Component {
           dataTest="tag-input"
         />
         {
-          edit
+          editor
             ? (
               <button
                 type="button"
@@ -153,15 +156,20 @@ class WalletForm extends Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
-  expense: state.wallet.expense,
-  edit: state.wallet.edit,
+  editor: state.wallet.editor,
+  expenses: state.wallet.expenses,
+  idToEdit: state.wallet.idToEdit,
 
 });
 
 WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   dispatch: PropTypes.func.isRequired,
-
+  editor: PropTypes.bool.isRequired,
+  expenses: PropTypes.shape({
+    length: PropTypes.number,
+  }).isRequired,
+  idToEdit: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(WalletForm);
