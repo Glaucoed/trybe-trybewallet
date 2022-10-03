@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Input from './Input';
 import Select from './Select';
-import { addExpenses } from '../redux/actions';
+import { addExpenses, editExpenses } from '../redux/actions';
 
 const METHOD_LIST = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
 
@@ -17,10 +17,28 @@ class WalletForm extends Component {
     currency: 'USD',
     method: 'Dinheiro',
     tag: 'Alimentação',
+    exchangeRates: '',
   };
+
+  componentDidUpdate(_prevProps, prevState) {
+    const { edit, expense } = this.props;
+    console.log(prevState, 'prev');
+    console.log(expense, 'expense');
+    if (expense && edit && prevState?.id !== expense?.id) {
+      this.xablau(expense);
+    }
+  }
 
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value });
+  };
+
+  handleEdit = () => {
+    const { expense, dispatch } = this.props;
+    const { exchangeRates } = expense;
+    const atualState = this.state;
+    atualState.exchangeRates = exchangeRates;
+    dispatch(editExpenses(atualState));
   };
 
   handleClickButton = () => {
@@ -45,8 +63,19 @@ class WalletForm extends Component {
     });
   };
 
+  xablau = (obj) => {
+    console.log('xablau');
+    this.setState({
+      id: obj.id,
+      value: obj.value,
+      description: obj.description,
+      currency: obj.currency,
+      method: obj.method,
+      tag: obj.tag });
+  };
+
   render() {
-    const { currencies } = this.props;
+    const { currencies, edit } = this.props;
     const MOEDAS_LIST = currencies || [];
 
     const { value, description, method, tag, currency } = this.state;
@@ -96,12 +125,27 @@ class WalletForm extends Component {
           options={ TAG_LIST }
           dataTest="tag-input"
         />
-        <button
-          type="button"
-          onClick={ () => this.handleClickButton() }
-        >
-          Adicionar despesa
-        </button>
+        {
+          edit
+            ? (
+              <button
+                type="button"
+                onClick={ () => this.handleEdit() }
+              >
+                Editar despesa
+              </button>
+            )
+            : (
+              <button
+                type="button"
+                onClick={ () => this.handleClickButton() }
+              >
+                Adicionar despesa
+              </button>
+            )
+
+        }
+
       </form>
     );
   }
@@ -109,6 +153,9 @@ class WalletForm extends Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  expense: state.wallet.expense,
+  edit: state.wallet.edit,
+
 });
 
 WalletForm.propTypes = {

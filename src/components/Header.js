@@ -29,7 +29,7 @@ class Header extends Component {
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   total: PropTypes.arrayOf(PropTypes.shape({
-    arrayOf: PropTypes.string,
+    map: PropTypes.func,
   })).isRequired,
 };
 

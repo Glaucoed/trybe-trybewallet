@@ -5,13 +5,15 @@ import {
   GET_CURRENCIES_FAIL,
   ADD_EXPENSES,
   DELETE_EXPENSES,
+  EDIT_EXPENSES,
+  ADD_EXPENSE_EDIT,
 } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
   currenciesAll: '',
-  error: '',
   loading: false,
+  edit: false,
   expenses: [],
 };
 
@@ -32,11 +34,11 @@ function wallet(state = INITIAL_STATE, action) {
     return {
       ...state,
       loading: false,
-      erro: 'algo está errado',
     };
   case ADD_EXPENSES:
     return {
       ...state,
+      edit: false,
       expenses: [...state.expenses, action.expenses],
     };
   case DELETE_EXPENSES:
@@ -44,6 +46,25 @@ function wallet(state = INITIAL_STATE, action) {
       ...state,
       expenses: state.expenses.filter((expen) => expen !== action.expense),
     };
+  case ADD_EXPENSE_EDIT:
+    return {
+      ...state,
+      edit: true,
+      expense: action.expense, // alterar para o ID igual o readme
+    };
+  case EDIT_EXPENSES:
+    return {
+      ...state,
+      edit: false,
+      expenses: state.expenses.map((expen) => {
+        if (expen.id === action.expense.id) {
+          return action.expense;
+        } return expen;
+      }),
+      // expen.id
+    };
+    // se for igual action
+    // se nao expen
   default:
     return state;
   }
