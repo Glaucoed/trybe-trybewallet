@@ -3,6 +3,7 @@ export const REQUEST_API = 'REQUEST_API';
 export const GET_CURRENCIES = 'GET_CURRENCIES';
 export const GET_CURRENCIES_FAIL = 'GET_CURRENCIES_FAIL';
 export const ADD_CUSTOMER = 'ADD_CUSTOMER';
+export const DELETE_CUSTOMER = 'DELETE_CUSTOMER';
 
 export const emailLogin = (payload) => ({ type: LOGIN, payload });
 
@@ -12,6 +13,8 @@ export const addExpenses = (expenses) => async (dispatch) => {
   expenses.exchangeRates = currenciesAll;
   dispatch({ type: ADD_CUSTOMER, expenses });
 };
+
+export const deleteExpenses = (expense) => ({ type: DELETE_CUSTOMER, expense });
 
 export const requestAPI = () => ({ type: REQUEST_API });
 

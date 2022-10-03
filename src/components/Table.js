@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { deleteExpenses } from '../redux/actions';
 
 class Table extends Component {
+  handleRemove = (expense) => {
+    const { dispatch } = this.props;
+    dispatch(deleteExpenses(expense));
+  };
+
   render() {
     const { expenses } = this.props;
     return (
@@ -23,12 +29,24 @@ class Table extends Component {
         <tbody>
           {
             expenses
-              .map(({ description, currency, method, tag, value, exchangeRates, id }) => {
+              .map((expense) => {
+                const {
+                  value,
+                  exchangeRates,
+                  currency,
+                  method,
+                  description,
+                  tag,
+                  id,
+                } = expense;
+
                 const fixedCurrency = 'Real';
                 const valueTotal = (+value).toFixed(2);
                 const currencyName = exchangeRates[currency].name;
-                const currencyValue = (+exchangeRates[currency].ask).toFixed(2);
-                const convertedValueTotal = ((+exchangeRates[currency].ask) * valueTotal)
+                const currencyValue = (+exchangeRates[currency].ask)
+                  .toFixed(2);
+                const convertedValueTotal = (
+                  (+exchangeRates[currency].ask) * valueTotal)
                   .toFixed(2);
                 return (
                   <tr key={ id }>
@@ -42,7 +60,13 @@ class Table extends Component {
                     <td>{convertedValueTotal}</td>
                     <td>{fixedCurrency}</td>
                     <td>
-                      {/* button */}
+                      <button
+                        type="submit"
+                        data-testid="delete-btn"
+                        onClick={ () => this.handleRemove(expense) }
+                      >
+                        Entrar
+                      </button>
                     </td>
                   </tr>
                 );
