@@ -79,7 +79,7 @@ class WalletForm extends Component {
 
   render() {
     const { currencies, editor } = this.props;
-    const MOEDAS_LIST = currencies || [];
+    const MOEDAS_LIST = currencies;
 
     const { value, description, method, tag, currency } = this.state;
 
@@ -166,9 +166,11 @@ WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   dispatch: PropTypes.func.isRequired,
   editor: PropTypes.bool.isRequired,
-  expenses: PropTypes.shape({
+  expenses: PropTypes.arrayOf(PropTypes.shape({
     length: PropTypes.number,
-  }).isRequired,
+    id: PropTypes.number,
+    exchangeRates: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired).isRequired,
   idToEdit: PropTypes.string.isRequired,
 };
 

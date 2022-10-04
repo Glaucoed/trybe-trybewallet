@@ -2,7 +2,6 @@
 import {
   REQUEST_API,
   GET_CURRENCIES,
-  GET_CURRENCIES_FAIL,
   ADD_EXPENSES,
   DELETE_EXPENSES,
   EDIT_EXPENSES,
@@ -11,10 +10,8 @@ import {
 
 const INITIAL_STATE = {
   currencies: [],
-  currenciesAll: '',
-  loading: false,
   editor: false,
-  idToEdit: null,
+  idToEdit: '',
   expenses: [],
 };
 
@@ -23,18 +20,11 @@ function wallet(state = INITIAL_STATE, action) {
   case REQUEST_API:
     return {
       ...state,
-      loading: true,
     };
   case GET_CURRENCIES:
     return {
       ...state,
       currencies: action.currencies,
-      loading: false,
-    };
-  case GET_CURRENCIES_FAIL:
-    return {
-      ...state,
-      loading: false,
     };
   case ADD_EXPENSES:
     return {
@@ -50,7 +40,7 @@ function wallet(state = INITIAL_STATE, action) {
     return {
       ...state,
       editor: true,
-      idToEdit: action.id, // alterar para o ID igual o readme
+      idToEdit: action.id,
     };
   case EDIT_EXPENSES:
     return {
@@ -61,10 +51,7 @@ function wallet(state = INITIAL_STATE, action) {
           return action.expense;
         } return expen;
       }),
-      // expen.id
     };
-    // se for igual action
-    // se nao expen
   default:
     return state;
   }
